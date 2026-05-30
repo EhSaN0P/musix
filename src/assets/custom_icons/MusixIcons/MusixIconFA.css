@@ -1,0 +1,50 @@
+/* استفاده از فونت لاله‌زار که برای عناوین و افکت نئون عالی است */
+@import url('https://fonts.googleapis.com/css2?family=Lalezar&display=swap');
+
+.neon-wrapper {
+    background: radial-gradient(circle at center, #1a0b2e 0%, #050508 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 300px;
+    overflow: hidden;
+    border-radius: 16px;
+}
+
+.neon-container {
+    width: 100%;
+    max-width: 700px;
+}
+
+/* اضافه شدن direction: rtl برای رندر بهتر حروف پیوسته فارسی */
+.neon-text {
+    font-family: 'Lalezar', system-ui, sans-serif;
+    font-size: 130px; /* فونت‌های فارسی معمولا کمی کوچکتر رندر می‌شوند، سایز را بیشتر کردم */
+    fill: transparent;
+    stroke: #fff;
+    stroke-width: 2px;
+    direction: rtl;
+    animation: flicker 4s infinite alternate;
+}
+
+.neon-glow {
+    font-family: 'Lalezar', system-ui, sans-serif;
+    font-size: 130px;
+    fill: transparent;
+    stroke: url(#neonGradient);
+    stroke-width: 7px;
+    filter: url(#glow);
+    direction: rtl;
+    animation: pulse 3s infinite alternate;
+}
+
+@keyframes flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+    20%, 24%, 55% { opacity: 0.4; }
+}
+
+@keyframes pulse {
+    0% { filter: url(#glow) hue-rotate(0deg); opacity: 0.8; }
+    100% { filter: url(#glow) hue-rotate(30deg); opacity: 1; }
+}

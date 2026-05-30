@@ -1,0 +1,32 @@
+/* components/SearchResults.css */
+.search-results {
+    margin-top: 2rem;
+}
+
+.empty-message {
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    padding: 3rem 0;
+}
+
+.results-section {
+    margin-bottom: 2.5rem;
+}
+
+.section-title {
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+}
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 24px;
+    margin-top: 16px;
+}
+.results-section {
+    margin-bottom: 32px;
+}
+.section-title {
+    margin-bottom: 16px !important;
+}

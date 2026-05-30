@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+
+.dir-fa{
+    direction: rtl !important;
+     transition: 500ms !important;
+ }
+.dir-en{
+    direction: ltr !important;
+     transition: 500ms !important;
+}
+
+
+body {
+    overflow: hidden;
+    width: 100%;
+    height: 100vh !important;
+ }
+
+/* Premium Glass Effect */
+.glass-premium {
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02),
+    0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Neon Highlights */
+.text-glow {
+    text-shadow: 0 0 20px rgba(191, 112, 206, 0.6), 0 0 40px rgba(66, 82, 200, 0.4);
+}
+
+.text-gradient {
+    background: linear-gradient(135deg, #fff 0%, #bf70ce 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+
+
+/* Card Hover Magic */
+.music-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(66,82,200,0.8), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 10;
+}
+.music-card:hover::before { opacity: 0.6; }
+
+.music-card img { transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
+.music-card:hover img { transform: scale(1.15) rotate(2deg); }
+
+.gradiant-move{
+    animation: gradientMove 8s ease infinite;
+}
+@keyframes gradientMove {
+    0% {
+        background-size: 200% 200%;
+        background-position: left top;
+    }
+    50% {
+        background-size: 200% 200%;
+        background-position:   bottom;
+    }
+    100% {
+        background-size: 200% 200%;
+        background-position: left top;
+    }
+}
+
+
+  *::selection {
+      background: none;
+    }
+  svg{
+     user-select: none !important;
+  }

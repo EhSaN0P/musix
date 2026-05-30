@@ -1,0 +1,48 @@
+.settings-container {
+    padding: 30px;
+    max-width: 700px;
+    margin: 0 auto;
+    color: #fff;
+}
+
+.settings-header {
+    margin-bottom: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 20px;
+}
+
+.settings-header h2 { margin: 0 0 10px 0; }
+.settings-header p { color: #aaa; margin: 0; }
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 20px;
+    border-radius: 16px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: background 0.3s;
+}
+
+.setting-item:hover { background: rgba(255, 255, 255, 0.06); }
+
+.setting-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.setting-icon {
+    color: #00e5ff;
+    font-size: 2rem !important;
+    background: rgba(0, 229, 255, 0.1);
+    padding: 8px;
+    border-radius: 12px;
+}
+
+.setting-info h3 { margin: 0 0 5px 0; font-size: 1.1rem; }
+.setting-info p { margin: 0; font-size: 0.85rem; color: #888; }
+
+.setting-item.clickable { cursor: pointer; }

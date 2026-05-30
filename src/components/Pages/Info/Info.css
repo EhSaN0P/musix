@@ -1,0 +1,74 @@
+.info-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+    padding: 20px;
+}
+
+.info-card {
+    background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 30px;
+    padding: 40px;
+    max-width: 500px;
+    text-align: center;
+    backdrop-filter: blur(20px);
+    color: #fff;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+}
+
+.logo-placeholder {
+    width: 100px;
+    height: 100px;
+    background: rgba(179, 136, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.info-card h1 { margin: 0 0 5px 0; }
+.version { color: #b388ff; font-weight: bold; margin-bottom: 20px; }
+
+.info-details {
+    color: #ccc;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.tech-stack h3 {
+    font-size: 1rem;
+    margin-bottom: 15px;
+    color: #aaa;
+}
+
+.badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.badges span {
+    background: rgba(255,255,255,0.1);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+
+.contact-btn {
+    background: transparent;
+    color: #fff;
+    border: 1px solid #b388ff;
+    padding: 10px 20px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-family: inherit;
+}
+.contact-btn:hover { background: rgba(179, 136, 255, 0.1); }

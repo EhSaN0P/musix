@@ -1,0 +1,47 @@
+/* Glass Effect */
+.glass-bottom-nav {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.1) !important; /* رنگ شفاف برای افکت شیشه */
+    backdrop-filter: blur(20px); /* محو کردن پشت نوار */
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 24px !important; /* گردی لبه‌ها */
+}
+
+.mobile-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 1.5rem; /* فاصله از لبه‌های گوشی */
+
+}
+
+/* Bottom Navigation */
+
+.bottom-nav-container {
+    background: transparent !important; /* پس‌زمینه را از خود MUI می‌گیریم */
+    width: 100%;
+    height: 16px !important;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    position: relative;
+
+
+
+}
+
+
+
+
+/* FAB Button */
+.fab-menu-button {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position:absolute;
+    top:-1rem;
+    left:0 ;
+    width:64px;
+    height:64px;
+}

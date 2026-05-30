@@ -1,0 +1,227 @@
+/* متغیرهای پایه برای تطبیق با هر تمی */
+:root {
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-hover: rgba(255, 255, 255, 0.15);
+    --text-main: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.6);
+    --theme-accent: #1db954; /* رنگ اصلی اپلیکیشن (مثلا سبز اسپاتیفای) */
+    --error-color: #ff4d4f;
+}
+
+.user-settings-container {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+/* پنل شیشه‌ای اصلی */
+.glass-panel {
+       padding: 40px;
+    width: 100%;
+ }
+
+/* --- تب‌ها --- */
+.settings-tabs {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 15px;
+}
+
+.tab-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 10px 15px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.tab-btn:hover {
+    background: var(--glass-hover);
+    color: var(--text-main);
+}
+
+.tab-btn.active {
+    color: var(--theme-accent);
+    background: rgba(29, 185, 84, 0.1); /* هم‌رنگ با theme-accent */
+}
+
+/* --- چیدمان دو ستونه --- */
+.profile-content-wrapper {
+    display: flex;
+    flex-direction: row-reverse; /* عکس سمت چپ، فرم سمت راست */
+    align-items: flex-start;
+    gap: 60px;
+}
+
+/* --- ستون عکس پروفایل --- */
+.avatar-section {
+    flex: 0 0 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: sticky;
+    top: 20px;
+}
+
+.avatar-wrapper {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    border: 4px solid var(--glass-border);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar-upload-btn {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    text-align: center;
+    padding: 12px 0;
+    cursor: pointer;
+    font-weight: bold;
+    backdrop-filter: blur(5px);
+    transition: background 0.3s;
+}
+
+.avatar-upload-btn:hover {
+    background: var(--theme-accent);
+}
+
+.avatar-hint {
+    margin-top: 15px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* --- ستون فرم --- */
+.form-section {
+    flex: 1;
+}
+
+.formik-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    color: var(--text-main);
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding-right: 5px;
+}
+
+/* اینپوت‌های شیشه‌ای */
+.glass-input {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 15px 20px;
+    color: var(--text-main);
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.glass-input:focus {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--theme-accent);
+    box-shadow: 0 0 0 4px rgba(29, 185, 84, 0.1);
+}
+
+.glass-input.textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.error-text {
+    color: var(--error-color);
+    font-size: 0.85rem;
+    margin-top: 4px;
+    padding-right: 5px;
+}
+
+/* دکمه ذخیره */
+.submit-btn {
+    background: var(--theme-accent);
+    color: #fff;
+    border: none;
+    border-radius: 16px;
+    padding: 16px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3);
+}
+
+.submit-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(29, 185, 84, 0.4);
+}
+
+.submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* انیمیشن لود شدن نرم */
+.fade-in {
+    animation: fadeIn 0.4s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- ریسپانسیو برای موبایل --- */
+@media (max-width: 860px) {
+    .profile-content-wrapper {
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+    }
+
+    .avatar-section {
+        flex: 0 0 auto;
+        position: static;
+    }
+
+    .avatar-wrapper {
+        width: 150px;
+        height: 150px;
+    }
+
+    .glass-panel {
+        padding: 25px;
+    }
+}

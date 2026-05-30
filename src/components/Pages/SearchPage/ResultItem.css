@@ -1,0 +1,47 @@
+/* تنظیمات پایه آیتم */
+.result-item {
+    padding: 1rem 1.25rem;
+    margin-bottom: 0.75rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    border-right: 3px solid transparent; /* برای افکت هاور */
+    display: flex;
+    flex-direction: column;
+}
+
+.result-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(-4px);
+}
+
+/* متن‌ها */
+.item-title {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.item-subtitle {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.875rem;
+}
+
+/* افکت‌های رنگی اختصاصی (Hover States) */
+.song-item:hover { border-right-color: #1db954; }
+.album-item:hover { border-right-color: #ff6b6b; }
+.artist-item:hover { border-right-color: #4ecdc4; }
+.remix-item:hover { border-right-color: #fca311; }
+.playlist-item:hover { border-right-color: #a29bfe; }
+
+/* استفاده از Pseudo-elements برای آیکون‌ها */
+.remix-item .item-title::before {
+    content: "⚡ ";
+    color: #fca311;
+}
+
+.playlist-item .item-title::before {
+    content: "🎵 ";
+    color: #a29bfe;
+}

@@ -1,0 +1,135 @@
+.by-your-vibe-container {
+    padding: 40px 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.vibe-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.vibe-icon {
+    font-size: 3rem !important;
+    color: #00e5ff;
+    margin-bottom: 10px;
+}
+
+.mixer-panel {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    padding: 30px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.slider-group {
+    margin-bottom: 24px;
+}
+
+.slider-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.mix-btn {
+    width: 100%;
+    padding: 16px;
+    margin-top: 20px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(45deg, #651fff, #00e5ff);
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(101, 31, 255, 0.4);
+}
+
+.mix-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(101, 31, 255, 0.6);
+}
+
+.mix-btn.mixing {
+    animation: pulseBg 1.5s infinite;
+    cursor: wait;
+}
+
+@keyframes pulseBg {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+}
+
+/* انیمیشن موج‌های در حال لودینگ */
+.loading-waves {
+    display: flex;
+    gap: 10px;
+    margin-top: 40px;
+    height: 50px;
+    align-items: center;
+}
+
+.wave {
+    width: 8px;
+    height: 10px;
+    background: #00e5ff;
+    border-radius: 4px;
+    animation: waveAnim 1s ease-in-out infinite;
+}
+
+.wave:nth-child(2) { animation-delay: 0.1s; background: #b000ff;}
+.wave:nth-child(3) { animation-delay: 0.2s; background: #ff007f;}
+
+@keyframes waveAnim {
+    0%, 100% { height: 10px; }
+    50% { height: 40px; }
+}
+
+/* پنل نتایج */
+.results-panel {
+    width: 100%;
+    margin-top: 40px;
+    background: rgba(0, 229, 255, 0.1);
+    border-left: 4px solid #00e5ff;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.result-track {
+    display: flex;
+    align-items: center;
+    margin-top: 16px;
+    background: rgba(0,0,0,0.4);
+    padding: 12px;
+    border-radius: 8px;
+    gap: 16px;
+}
+
+.track-color {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+}
+
+.track-info {
+    flex: 1;
+}
+
+.play-btn {
+    background: white;
+    color: black;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}

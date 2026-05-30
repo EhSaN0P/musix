@@ -1,0 +1,62 @@
+.loader-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    gap: 2rem;
+}
+
+.pulse-orb {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* هسته مرکزی که انگار داره ضربان می‌زنه */
+.core {
+    width: 20px;
+    height: 20px;
+    background: currentColor;
+    border-radius: 50%;
+    animation: loader_pulse 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    box-shadow: 0 0 20px currentColor;
+}
+
+/* حلقه‌هایی که به بیرون نشت می‌کنن */
+.ring {
+    position: absolute;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    animation: loader_expand 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+    opacity: 0;
+}
+
+.ring:nth-child(2) { animation-delay: 0.5s; }
+
+.loader-text {
+    font-family: sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    animation: loader_flicker 2s infinite;
+}
+
+@keyframes loader_pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.7; }
+}
+
+@keyframes loader_expand {
+    0% { width: 0; height: 0; opacity: 0.5; }
+    100% { width: 80px; height: 80px; opacity: 0; }
+}
+
+@keyframes loader_flicker {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 0.4; }
+}

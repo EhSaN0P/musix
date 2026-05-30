@@ -1,0 +1,140 @@
+.remixers-container {
+    padding: 30px;
+    color: #fff;
+}
+
+.remixers-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.header-icon {
+    font-size: 3rem !important;
+    color: #00e5ff;
+    background: rgba(0, 229, 255, 0.1);
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.remixers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.remixer-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 24px;
+    padding: 20px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s, box-shadow 0.3s;
+    overflow: hidden;
+    position: relative;
+}
+
+.remixer-card:hover {
+    border-color: rgba(0, 229, 255, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 229, 255, 0.1);
+}
+
+/* انیمیشن و استایل دیسک وینیل */
+.vinyl-wrapper {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 20px;
+}
+
+.vinyl-record {
+    width: 100%;
+    height: 100%;
+    background: repeating-radial-gradient(
+            #111,
+            #111 4px,
+            #222 5px,
+            #222 6px
+    );
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.remixer-card:hover .vinyl-record {
+    transform: rotate(360deg) scale(1.1);
+    transition-duration: 2s;
+    transition-timing-function: linear;
+    transition-iteration-count: infinite;
+}
+
+.vinyl-label {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #111;
+}
+
+.vinyl-hole {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #111;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #333;
+}
+
+.remixer-info h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.4rem;
+}
+
+.dj-style {
+    font-size: 0.85rem;
+    color: #00e5ff;
+    background: rgba(0, 229, 255, 0.1);
+    padding: 4px 10px;
+    border-radius: 12px;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+.dj-stats {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    color: #aaa;
+    font-size: 0.85rem;
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.play-mixes-btn {
+    width: 100%;
+    background: linear-gradient(45deg, #00e5ff, #0076ff);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 15px;
+    font-family: inherit;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+}

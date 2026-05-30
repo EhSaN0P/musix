@@ -1,0 +1,64 @@
+.drawer{
+
+
+}
+
+/* List Items */
+.MuiListItemButton-root {
+    transition: all 0.3s ease !important;
+}
+
+.MuiListItemButton-root:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Text Truncate */
+.MuiListItemText-primary {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Animations */
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .bottom-nav-container {
+        padding: 0.25rem 0;
+    }
+
+    .fab-menu-button {
+        width: 56px !important;
+        height: 56px !important;
+        top: -24px !important;
+    }
+
+    .mobile-side-drawer {
+        width: 90% !important;
+    }
+}
+
+
+
+
+.mobile-item-menu{
+    width: 100%;
+    box-shadow: 0 0  2px ;
+    text-align: start;
+ }
+
+
+.mobile-item-menu-active{
+    width: 100%;
+
+}

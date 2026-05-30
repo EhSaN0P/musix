@@ -1,0 +1,193 @@
+
+.glass-bg {
+    background: linear-gradient(to top right, rgba(0, 0, 0, 0.32), transparent);
+    backdrop-filter: blur( 2px);
+    -webkit-backdrop-filter: blur(12px);
+    corner-shape:squircle ;
+    border-radius: 130px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+
+    box-shadow:
+            0 4px 12px rgba(0,0,0,0.15),
+            inset 0 1px 0 rgba(255,255,255,0.2);
+}
+
+
+.app-features{
+    height: 70%;
+    overflow-y: scroll ;
+    box-shadow: inset 0 0 15px black;
+    corner-shape:squircle ;
+    border-radius: 30px;
+    scroll-behavior: smooth;
+    margin: 1rem 0;
+    position: relative;
+
+}
+
+
+/* Custom Scrollbar */
+.app-features::-webkit-scrollbar { width: 5px; }
+.app-features::-webkit-scrollbar-track { background: transparent;  }
+.app-features::-webkit-scrollbar-thumb {  border-radius: 20px;}
+
+
+
+.list-item{
+    width: 100%;
+    border-radius:  50px !important;
+    padding-block: 20px !important;
+    corner-shape: squircle ;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 2px ;
+    text-overflow: fade;
+    transition: 200ms !important ;
+}
+
+.list-item-active{
+    width: 100%;
+    border-radius:  50px !important;
+    padding-block: 20px !important;
+    corner-shape: squircle ;
+    background: linear-gradient(to top right, rgba(0, 0, 0, 0.34), transparent) !important;
+    backdrop-filter: blur( 2px) !important;
+    box-shadow: 0 5px 6px ;
+    transition: 300ms !important ;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transform: scaleY(1.1);
+  }
+
+.scroll-container {
+    position: relative;
+    height: 400px; /* ارتفاع دلخواه */
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.scroll-progress {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: #e0e0e0;
+    z-index: 10;
+}
+
+.scroll-progress-bar {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, #180c7f, #6c84ac);
+    transition: width 0.1s ease;
+}
+
+.content {
+    padding: 20px;
+}
+
+
+
+
+.sidebar-container {
+
+    perspective: 1000px;
+    width: 22rem !important;
+    height: 90vh;
+ }
+
+.sidebar-flip-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.sidebar-flip-wrapper.flipped {
+    transform: rotateY(180deg);
+}
+
+.side-bar {
+
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-front {
+    /* جلو - حالت عادی */
+}
+
+.sidebar-back {
+    /* پشت - چرخیده 180 درجه */
+    transform: rotateY(180deg);
+}
+
+
+.flip-button-container {
+    margin-top: auto;
+    padding-top: 1rem;
+    display: flex;
+    justify-content: start ;
+    gap: 1rem;
+
+}
+
+.back-header {
+    text-align: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 1rem;
+}
+
+.back-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+/* اسکرول بار */
+.app-features::-webkit-scrollbar {
+    width: 6px;
+}
+
+.app-features::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.app-features::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+.app-features::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.scroll-progress {
+    position: sticky;
+    top: 0;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    z-index: 10;
+    margin-bottom: 0.5rem;
+}
+
+.scroll-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.14) 0%, rgba(255, 255, 255, 0.15) 100%);
+    transition: width 500ms ;
+    border-radius: 10px;
+}
+

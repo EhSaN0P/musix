@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,900&display=swap');
+
+.neon-wrapper {
+    background: radial-gradient(circle at center, #1a0b2e 0%, #050508 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 300px;
+    overflow: hidden;
+    border-radius: 16px; /* برای زیبایی بیشتر در صورت استفاده در بخشی از صفحه */
+}
+
+.neon-container {
+    width: 100%;
+    max-width: 700px;
+}
+
+.neon-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 110px;
+    font-weight: 900;
+    font-style: italic;
+    fill: transparent;
+    stroke: #fff;
+    stroke-width: 2px;
+    animation: flicker 4s infinite alternate;
+}
+
+.neon-glow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 110px;
+    font-weight: 900;
+    font-style: italic;
+    fill: transparent;
+    stroke: url(#neonGradient);
+    stroke-width: 6px;
+    filter: url(#glow);
+    animation: pulse 3s infinite alternate;
+}
+
+@keyframes flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+    20%, 24%, 55% { opacity: 0.4; }
+}
+
+@keyframes pulse {
+    0% { filter: url(#glow) hue-rotate(0deg); opacity: 0.8; }
+    100% { filter: url(#glow) hue-rotate(30deg); opacity: 1; }
+}
