@@ -13,7 +13,7 @@ export default function AlbumCard({ item }) {
                 to={`/album/${item.slug}`}
             >
                 <img
-                    src={item.image}
+                    src={item.image || "/images/placeholder-song.jpg"}
                     alt={item.title}
                 />
             </Link>

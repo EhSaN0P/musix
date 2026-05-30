@@ -12,7 +12,11 @@ export default function SongCard({ item }) {
             <div className="media-image">
 
                 <Link to={`/song/${item.slug}`}>
-                    <img src={item.image} alt={item.title} />
+                    <img
+                        src={item.image || "/images/placeholder-song.jpg"}
+                        alt={item.title}
+
+                    />
                 </Link>
 
                 <div className="mg-play">
@@ -32,9 +36,8 @@ export default function SongCard({ item }) {
                 </h4>
 
                 <p className="media-subtitle">
-                    {item.artist}
+                    {item.artist?.name || item.artist}
                 </p>
-
             </div>
 
         </div>

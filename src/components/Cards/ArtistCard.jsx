@@ -12,7 +12,7 @@ export default function ArtistCard({ item }) {
                 to={`/artist/${item.slug}`}
             >
                 <img
-                    src={item.image}
+                    src={item.image || "/images/artist.jpg"}
                     alt={item.title}
                 />
             </Link>

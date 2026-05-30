@@ -4,11 +4,10 @@ import { themes } from "../../../setting/them.js";
 import { useState, useEffect, useRef, useCallback } from 'react';
 import './Home.css';
 import { useSelector, useDispatch } from 'react-redux';
- import { fakeSongs, fakeArtists, fakeAlbums, fakeRemixes, fakePlaylists, formatDuration, formatPlays } from '../../../data/fakeDb.js';
-import { Play, Heart } from 'lucide-react';
-import MediaGridCard from "../../Cards/MediaGridCard.jsx";
-import MediaCard from "../../Cards/MediaGridCard.jsx";
+ import {  formatDuration, formatPlays } from '../../../data/fakeDb.js';
 
+import MediaCard from "../../Cards/MediaGridCard.jsx";
+import apiService from '../../../services/apiService';
 const FAV_KEY = 'musix_favorites';
 function loadFavs() { try { return JSON.parse(localStorage.getItem(FAV_KEY)) || []; } catch { return []; } }
 function saveFavs(ids) { localStorage.setItem(FAV_KEY, JSON.stringify(ids)); }
@@ -22,18 +21,7 @@ const TABS = [
   { id: 'albums', label: 'آلبوم‌ها', labelEn: 'Albums' },
 ];
 
-function getTabData(tab, page) {
-  const LIMIT = 12;
-  let allItems = [];
-  if (tab === 'music') allItems = fakeSongs.map(s => ({ ...s, type: 'song', image: s.cover, subtitle: s.artist }));
-  if (tab === 'artists') allItems = fakeArtists.map(a => ({ ...a, type: 'artist', image: a.image, title: a.name, subtitle: `${formatPlays(a.monthlyListeners)} شنونده` }));
-  if (tab === 'remixes') allItems = fakeRemixes.map(r => ({ ...r, type: 'remix', image: r.cover, subtitle: r.artist }));
-  if (tab === 'playlists') allItems = fakePlaylists.map(p => ({ ...p, type: 'playlist', image: p.cover, subtitle: p.creator }));
-  if (tab === 'albums') allItems = fakeAlbums.map(a => ({ ...a, type: 'album', image: a.cover, subtitle: a.artist }));
-  const start = (page - 1) * LIMIT;
-  const slice = allItems.slice(start, start + LIMIT);
-  return { data: slice, hasMore: start + LIMIT < allItems.length };
-}
+
 
 export default function Home() {
 
@@ -51,14 +39,85 @@ export default function Home() {
 
 
   useEffect(() => {
-    setIsLoading(true);
-    setTimeout(() => {
-      const { data, hasMore: hm } = getTabData(activeTab, page);
-      setItems(prev => page === 1 ? data : [...prev, ...data]);
-      setHasMore(hm);
-      setIsLoading(false);
-    }, 400);
-  }, [activeTab, page]);
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+
+        let endpoint = "/songs";
+
+        switch (activeTab) {
+          case "artists":
+            endpoint = "/artists";
+            break;
+
+          case "albums":
+            endpoint = "/albums";
+            break;
+
+          case "playlists":
+            endpoint = "/playlists";
+            break;
+
+          default:
+            endpoint = "/songs";
+        }
+
+        const response = await apiService.get(endpoint);
+
+        const apiData = response.data?.data || response.data;
+
+        let formattedData = [];
+
+        if (activeTab === "music") {
+          formattedData = apiData.map(song => ({
+            ...song,
+            type: "song",
+            image: song.cover,
+            subtitle: song.artist?.name,
+          }));
+        }
+
+        if (activeTab === "artists") {
+          formattedData = apiData.map(artist => ({
+            ...artist,
+            type: "artist",
+            image: artist.avatar,
+            title: artist.name,
+            subtitle: `${artist.followers_count || 0} followers`,
+          }));
+        }
+
+        if (activeTab === "albums") {
+          formattedData = apiData.map(album => ({
+            ...album,
+            type: "album",
+            image: album.cover,
+            subtitle: album.artist?.name,
+          }));
+        }
+
+        if (activeTab === "playlists") {
+          formattedData = apiData.map(playlist => ({
+            ...playlist,
+            type: "playlist",
+            image: playlist.cover,
+            subtitle: playlist.user?.name,
+          }));
+        }
+
+        setItems(formattedData);
+        setHasMore(false);
+
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+
+  }, [activeTab]);
 
   function handleTabChange(id) {
     if (id === activeTab) return;
