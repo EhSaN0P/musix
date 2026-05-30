@@ -1,0 +1,53 @@
+.song-card .media-image {
+    border-radius: 18px;
+}
+
+.song-card .mg-play {
+    position: absolute;
+
+    bottom: 12px;
+    right: 12px;
+
+    width: 42px;
+    height: 42px;
+
+    border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    backdrop-filter: blur(8px);
+
+    background: rgba(0,0,0,.35);
+
+    opacity: 0;
+
+    transition: .25s;
+}
+
+.song-card:hover .mg-play {
+    opacity: 1;
+}
+
+.song-card .mg-like {
+    position: absolute;
+
+    top: 12px;
+    left: 12px;
+
+    width: 34px;
+    height: 34px;
+
+    border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(0,0,0,.35);
+}
+
+.song-card:hover img {
+    transform: scale(1.05);
+}

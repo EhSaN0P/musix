@@ -3,6 +3,7 @@ import GraphicEqIcon from '@mui/icons-material/GraphicEq';
 import HeadphonesIcon from '@mui/icons-material/Headphones';
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
 import './VibeRemixers.css';
+ import RemixCard from "../../Cards/RemixCard.jsx";
 
 const REMIXERS_DATA = [
     { id: 1, name: 'DJ Aligator', style: 'Trance / Club', tracks: 124, followers: '1.2M', cover: 'https://placehold.co/300/1a1a2e/00e5ff?text=DJA' },
@@ -42,41 +43,8 @@ const VibeRemixers = () => {
                 animate="show"
             >
                 {REMIXERS_DATA.map((dj) => (
-                    <motion.div key={dj.id} variants={cardVariants} className="remixer-card">
-                        {/* افکت دیسک وینیل */}
-                        <div className="vinyl-wrapper">
-                            <div className="vinyl-record">
-                                <img src={dj.cover} alt={dj.name} className="vinyl-label" />
-                                <div className="vinyl-hole"></div>
-                            </div>
-                        </div>
-
-                        <div className="remixer-info">
-                            <h3>{dj.name}</h3>
-                            <span className="dj-style">{dj.style}</span>
-
-                            <div className="dj-stats">
-                                <div className="stat">
-                                    <HeadphonesIcon fontSize="small" />
-                                    <span>{dj.followers} شنونده</span>
-                                </div>
-                                <div className="stat">
-                                    <GraphicEqIcon fontSize="small" />
-                                    <span>{dj.tracks} ریمیکس</span>
-                                </div>
-                            </div>
-
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                className="play-mixes-btn"
-                            >
-                                <PlayCircleFilledIcon />
-                                پخش ریمیکس‌ها
-                            </motion.button>
-                        </div>
-                    </motion.div>
-                ))}
+                         <RemixCard item={dj}/>
+                 ))}
             </motion.div>
         </div>
     );

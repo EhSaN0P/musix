@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import './VibeMakers.css';
 import { useSelector } from 'react-redux';
 import { fakeArtists, formatPlays } from '../../../data/fakeDb.js';
+import ArtistCard from "../../Cards/ArtistCard.jsx";
 
 function getArtistsPage(page) {
     const LIMIT = 12;
@@ -65,18 +66,7 @@ export default function VibeMakers() {
                     const isLast = items.length === index + 1;
 
                     return (
-                        <div
-                            key={`artist-${item.id}`}
-                            className="media-card"
-                            ref={isLast ? lastItemRef : null}
-                        >
-                            <div className="image-container artist-img">
-                                <img src={item.image} alt={item.title} loading="lazy" />
-                            </div>
-
-                            <h4 className="card-title">{item.title}</h4>
-                            <p className="card-subtitle">{item.subtitle}</p>
-                        </div>
+                        <ArtistCard item={item}/>
                     );
                 })}
             </div>

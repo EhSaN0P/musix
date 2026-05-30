@@ -6,34 +6,21 @@
   padding-bottom: 120px; /* room for player */
 }
 
-.tab-nav {
-  display: flex;
-  gap: 8px;
+.home-tabs {
   margin-bottom: 24px;
-  overflow-x: auto;
-  padding-bottom: 4px;
-}
-.tab-nav::-webkit-scrollbar { display: none; }
-
-.tab-btn {
-  background: rgba(255,255,255,0.08);
-  color: rgba(255,255,255,0.7);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 20px;
-  padding: 8px 18px;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
-}
-.tab-btn:hover { background: rgba(255,255,255,0.14); color: #fff; }
-.tab-btn.active {
-  background: linear-gradient(135deg, rgba(168,85,247,0.4), rgba(99,102,241,0.4));
-  border-color: rgba(168,85,247,0.5);
-  color: #fff;
-  font-weight: 700;
 }
 
+.home-tabs .MuiTab-root {
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-transform: none;
+  min-width: 80px;
+  padding: 0.75rem 1.25rem;
+}
+
+.home-tabs .MuiTabs-scrollButtons.Mui-disabled {
+  opacity: 0.2;
+}
 .content-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -73,24 +60,7 @@
 
 .image-container.artist-img img { border-radius: 50%; }
 
-.play-btn {
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #a855f7, #6366f1);
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transform: translateY(6px);
-  transition: all 0.25s ease;
-  box-shadow: 0 4px 16px rgba(168,85,247,0.5);
-  cursor: pointer;
-}
+
 .media-card:hover .play-btn {
   opacity: 1;
   transform: translateY(0);
@@ -141,4 +111,14 @@
   color: rgba(255,255,255,0.4);
   grid-column: 1 / -1;
   font-size: 14px;
+}
+@media (max-width: 768px) {
+  .home-container {
+    padding: 12px;
+  }
+
+  .content-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px;
+  }
 }

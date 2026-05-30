@@ -1,0 +1,19 @@
+.playlist-card .media-image {
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    position: relative;
+}
+
+.playlist-card .media-image img {
+    transition: .4s;
+}
+
+.playlist-card:hover img {
+    transform: scale(1.08);
+}
+
+.playlist-card .media-content {
+    padding-inline: 4px;
+}

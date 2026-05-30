@@ -40,6 +40,12 @@ import Downloads from "./components/Pages/Download/Download.jsx";
 import Settings from "./components/Pages/Settings/Settings.jsx";
 import Info from "./components/Pages/Info/Info.jsx";
 import NotFound404 from "./components/Pages/NotFound404/NotFound404.jsx";
+import SingleSong from "./components/Pages/singles/song/SingleSong.jsx";
+import SingleArtist from "./components/Pages/singles/artist/SingleArtist.jsx";
+import SingleAlbum from "./components/Pages/singles/album/SingleAlbum.jsx";
+import SinglePlaylist from "./components/Pages/singles/playlist/SinglePlaylist.jsx";
+import SingleRemixer from "./components/Pages/singles/remix/SingleRemixer.jsx";
+import Vibes from "./components/Pages/Vibes/Vibes.jsx";
 
 function App() {
   const dir = useSelector(s => s.languages.currentLang);
@@ -66,8 +72,18 @@ function App() {
       <Route path="/new-vibes" element={<StubPage name="حس‌های جدید" />} />
       <Route path="/vibe-types" element={<VibeTypes/>} />
       <Route path="/vibe-lists" element={<VibeLists/>} />
-      <Route path="/vibe-makers" element={<VibeMakers/>} />
-      <Route path="/by-your-vibe" element={ <ByYourVibe/>} />
+      <Route path="/vibe-makers" element={<VibeMakers />}></Route>
+      <Route path="/vibes" element={<Vibes />}></Route>
+
+
+        <Route path="/artist/:slug" element={<SingleArtist />} />
+        <Route path="/song/:slug" element={<SingleSong />} />
+        <Route path="/album/:slug" element={<SingleAlbum />} />
+        <Route path="/playlist/:slug" element={<SinglePlaylist />} />
+        <Route path="/remixer/:slug" element={<SingleRemixer />} />
+
+
+        <Route path="/by-your-vibe" element={ <ByYourVibe/>} />
       <Route path="/the-mosts" element={<TheMosts/>} />
       <Route path="/vibe-remixers" element={<VibeRemixers />} />
       <Route path="/settings" element={<Settings />} />

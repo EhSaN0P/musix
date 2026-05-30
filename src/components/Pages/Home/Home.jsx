@@ -1,9 +1,13 @@
+import { Tabs, Tab, Box } from "@mui/material";
+import { themes } from "../../../setting/them.js";
+
 import { useState, useEffect, useRef, useCallback } from 'react';
 import './Home.css';
 import { useSelector, useDispatch } from 'react-redux';
  import { fakeSongs, fakeArtists, fakeAlbums, fakeRemixes, fakePlaylists, formatDuration, formatPlays } from '../../../data/fakeDb.js';
 import { Play, Heart } from 'lucide-react';
 import MediaGridCard from "../../Cards/MediaGridCard.jsx";
+import MediaCard from "../../Cards/MediaGridCard.jsx";
 
 const FAV_KEY = 'musix_favorites';
 function loadFavs() { try { return JSON.parse(localStorage.getItem(FAV_KEY)) || []; } catch { return []; } }
@@ -32,6 +36,9 @@ function getTabData(tab, page) {
 }
 
 export default function Home() {
+
+
+  const currentThem = useSelector(state => state.theme.currentTheme);
    const lang = useSelector(s => s.languages.currentLang);
   const [activeTab, setActiveTab] = useState('music');
   const [items, setItems] = useState([]);
@@ -41,14 +48,7 @@ export default function Home() {
   const [favIds, setFavIds] = useState(loadFavs());
   const observer = useRef();
 
-  const lastItemRef = useCallback(node => {
-    if (isLoading) return;
-    if (observer.current) observer.current.disconnect();
-    observer.current = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting && hasMore) setPage(p => p + 1);
-    });
-    if (node) observer.current.observe(node);
-  }, [isLoading, hasMore]);
+
 
   useEffect(() => {
     setIsLoading(true);
@@ -70,12 +70,6 @@ export default function Home() {
 
 
 
-  function toggleFav(id, e) {
-    e.stopPropagation();
-    const next = favIds.includes(id) ? favIds.filter(f => f !== id) : [...favIds, id];
-    setFavIds(next);
-    saveFavs(next);
-  }
 
   const tabs = TABS.map(t => ({ ...t, display: lang === 'fa' ? t.label : t.labelEn }));
 
@@ -83,28 +77,69 @@ export default function Home() {
 
   return (
     <div className="home-container">
-      <nav className="tab-nav">
-        {tabs.map(tab => (
-          <button key={tab.id} className={`tab-btn ${activeTab === tab.id ? 'active' : ''}`} onClick={() => handleTabChange(tab.id)}>
-            {tab.display}
-          </button>
-        ))}
-      </nav>
+      <Box className="home-tabs">
+        <Tabs
+            value={activeTab}
+            onChange={(_, value) => handleTabChange(value)}
+            variant="scrollable"
+            scrollButtons="auto"
+            allowScrollButtonsMobile
+            sx={{
+              borderBottom: '1px solid rgba(255,255,255,0.12)',
+              minHeight: 48,
 
-      <div className="content-grid">
-        {items.map((item, index) => {
+              '& .MuiTabs-indicator': {
+                height: 3,
+                borderRadius: '3px 3px 0 0',
+                backgroundColor:
+                    themes[currentThem]?.searchBar?.borderColor || '#4ecdc4',
+              },
 
-          const liked = favIds.includes(item.id);
-          return (
-              <MediaGridCard
-                  item={item}
-                  liked={liked}
-                  onLike={() => toggleFav(item.id)}
-                  onPlay={() => console.log(item)}
+              '& .MuiTabs-scrollButtons': {
+                color: 'rgba(255,255,255,0.8)',
+              },
+
+              '& .MuiTabs-flexContainer': {
+                gap: '0.5rem',
+              },
+            }}
+        >
+          {tabs.map(tab => (
+              <Tab
+                  key={tab.id}
+                  label={tab.display}
+                  value={tab.id}
+                  sx={{
+                    fontSize: '0.95rem',
+                    fontWeight: 500,
+                    textTransform: 'none',
+                    minWidth: 'auto',
+                    px: 3,
+
+                    color:
+                        activeTab === tab.id
+                            ? `${themes[currentThem]?.searchFilters?.activeTabColor || '#fff'} !important`
+                            : `${themes[currentThem]?.searchFilters?.tabColor || 'rgba(255,255,255,.6)'} !important`,
+
+                    transition: 'all .3s ease',
+
+                    '&:hover': {
+                      backgroundColor: 'rgba(255,255,255,.05)',
+                    },
+                  }}
               />
-          );
-        })}
-      </div>
+          ))}
+        </Tabs>
+      </Box>
+
+        <div className="content-grid">
+            {items.map(item => (
+                <MediaCard
+                    key={`${item.type}-${item.id}`}
+                    item={item}
+                />
+            ))}
+        </div>
 
       {isLoading && <div className="loading-spinner">🎵 {lang === 'fa' ? 'در حال بارگذاری...' : 'Loading...'}</div>}
       {!hasMore && items.length > 0 && <div className="end-message">✅ {lang === 'fa' ? 'همه چیز نمایش داده شد' : 'All caught up!'}</div>}

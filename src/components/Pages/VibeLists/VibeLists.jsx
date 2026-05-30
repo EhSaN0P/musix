@@ -1,5 +1,6 @@
  import { motion } from 'framer-motion';
 import './VibeLists.css';
+ import PlaylistCard from "../../Cards/PlaylistCard.jsx";
 
 const PLAYLISTS = [
     { id: 1, title: 'کدنویسی در شب', type: 'large', color: '#651fff', tracks: 42, img: 'https://placehold.co/400x400/1a1a2e/651fff?text=Code+Night' },
@@ -27,24 +28,7 @@ const VibeLists = () => {
                 }}
             >
                 {PLAYLISTS.map((playlist) => (
-                    <motion.div
-                        key={playlist.id}
-                        className={`bento-card bento-${playlist.type}`}
-                        variants={{
-                            hidden: { opacity: 0, scale: 0.9 },
-                            visible: { opacity: 1, scale: 1 }
-                        }}
-                        whileHover={{ scale: 1.03 }}
-                        style={{ '--glow-color': playlist.color }}
-                    >
-                        <div className="card-bg" style={{ backgroundImage: `url(${playlist.img})` }}></div>
-                        <div className="card-overlay">
-                            <span className="track-count">{playlist.tracks} قطعه</span>
-                            <h3>{playlist.title}</h3>
-                        </div>
-                        {/* افکت سایه رنگی پشت کارت */}
-                        <div className="glow-effect"></div>
-                    </motion.div>
+                     <PlaylistCard item={playlist}   />
                 ))}
             </motion.div>
         </div>

@@ -1,0 +1,35 @@
+.artist-card {
+    text-align: center;
+}
+
+.artist-image {
+    width: 100%;
+    aspect-ratio: 1;
+
+    overflow: hidden;
+
+    border-radius: 50%;
+
+    position: relative;
+}
+
+.artist-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition: .35s;
+}
+
+.artist-card:hover img {
+    transform: scale(1.08);
+}
+
+.artist-card .media-title {
+    margin-top: 6px;
+}
+
+.artist-card .media-subtitle {
+    color: rgba(255,255,255,.5);
+}
