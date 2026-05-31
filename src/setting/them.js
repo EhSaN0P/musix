@@ -27,7 +27,8 @@ export const themes = {
             user_name:'#c44f4f'
         },
         popUp:{
-            logout :"error"
+            logout :"error",
+            login :"warning",
         }, searchBar:{
             borderColor:'rgb(216,35,35)',
             text:'rgb(216,126,126)',
@@ -36,6 +37,7 @@ export const themes = {
             tabColor:'rgb(216,35,35)',
             activeTabColor:'rgb(221,142,142)',
         },
+
 
 
 
@@ -69,7 +71,9 @@ export const themes = {
             user_name:'#5484c6'
         },
         popUp:{
-            logout :"error"
+            logout :"error",
+            login :"primary"
+
         },
         searchBar:{
             borderColor:'rgb(81,152,235)',
@@ -109,7 +113,9 @@ export const themes = {
             user_name:'#b44fc4'
         },
         popUp:{
-            logout :"error"
+            logout :"error",
+            login :"secondary",
+
         },
         searchBar:{
             borderColor:'rgb(155,39,175)',

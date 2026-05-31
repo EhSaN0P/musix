@@ -38,12 +38,14 @@ export const langs = {
         guest_name: 'کاربر میهمان',
         tooltip:{
                 rotate: 'چرخش ',
-                logout:'خروج از حساب'
+                logout:'خروج از حساب',
+                login:'ورود از حساب'
         },
         popUp: {
             themLangButton :"تم و زبان ",
             settingButton :"تنظیمات  ",
-            logoutButton :"خروج از حساب  "
+            logoutButton :"خروج از حساب  ",
+            loginButton :"ورود از حساب  "
         },
         cancel:'لغو',
         save:'ذخیره',
@@ -80,7 +82,16 @@ export const langs = {
                 creating:'در حال ساختن...',
                 deleting:'در حال حذف کردن...',
                 searching:'دارم میگردم وایسا...',
-         }
+         },
+        swalLogout:{
+            title: 'خروج از حساب',
+            text: ' واقعا میخوای ترکمون کنی؟ =[',
+            yes: 'اره',
+            no: 'نبابا شوخی کردم  '
+
+        },
+        flippedPage: ' بیشتر'
+
 
 
     },
@@ -121,12 +132,14 @@ export const langs = {
         guest_name: 'Guest User',
         tooltip:{
             rotate: 'rotate ',
-            logout:'logout'
+            logout:'logout',
+            login:'login',
         },
         popUp: {
             themLangButton :"Theme & Languages ",
             settingButton :"Settings ",
-            logoutButton :"Logout  "
+            logoutButton :"Logout  ",
+            loginButton :"Login  ",
         },
         cancel:'cancel',
         save:'save',
@@ -162,6 +175,14 @@ export const langs = {
             creating: 'Creating...',
             deleting: 'Deleting...',
             searching: 'Searching, hold on...',
-        }
+        },
+        swalLogout:{
+            title: 'Logout',
+            text: 'Do you really want to leave us ? =[ ',
+            yes: 'Yep',
+            no: 'No , Just kidding '
+
+        },
+        flippedPage: ' More'
     }
 };

@@ -1,9 +1,12 @@
 import './App.css';
-import { useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { themes } from './setting/them';
 import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
+
+
+
 
 // Layouts
 import LayoutDesktop from './components/Desktop/LayoutDesktop/LayoutDesktop.jsx';
@@ -46,11 +49,20 @@ import SingleAlbum from "./components/Pages/singles/album/SingleAlbum.jsx";
 import SinglePlaylist from "./components/Pages/singles/playlist/SinglePlaylist.jsx";
 import SingleRemixer from "./components/Pages/singles/remix/SingleRemixer.jsx";
 import Vibes from "./components/Pages/Vibes/Vibes.jsx";
+import {logout, setUser} from "./store/authSlice.js";
+import apiService from "./services/apiService.js";
+import {Navigate} from "react-router-dom";
+import Register from "./components/auth/Register.jsx";
+import Login from "./components/auth/Login.jsx";
+import GuestRoute from "./routes/GuestRoute.jsx";
+import ProtectedRoute from "./routes/ProtectedRoute.jsx";
+import {AuthRoutes} from "./routes/AuthRoutes/AuthRoutes.jsx";
+import {GuestRoutes} from "./routes/GuestRoutes/GuestRoutes.jsx";
+import NewVibes from "./components/Pages/NewVibes/NewVibes.jsx";
 
 function App() {
   const dir = useSelector(s => s.languages.currentLang);
   const currentThem = useSelector(s => s.theme.currentTheme);
-  const currentSong = useSelector(s => s.player.currentSong);
 
   useEffect(() => {
     document.body.style.background = themes.makeGradient(currentThem ?? 'blue');
@@ -61,36 +73,120 @@ function App() {
   const isMobile = useMediaQuery({ maxWidth: 1170 });
   const isDesktop = useMediaQuery({ minWidth: 1171 });
 
+
+  // Auth
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const res = await apiService.get('/auth/me');
+
+                dispatch(setUser(res.data.user));
+            } catch (error) {
+                dispatch(logout());
+            }
+        };
+
+        if (localStorage.getItem('token')) {
+            fetchUser();
+        }
+    }, []);
+  // Auth
+
+
   const routes = (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/search" element={<SearchPage />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="/party-vibe" element={<PartyVibe />} />
-      <Route path="/favorite" element={<Favorite />} />
-      <Route path="/history" element={<History />} />
-      <Route path="/new-vibes" element={<StubPage name="حس‌های جدید" />} />
-      <Route path="/vibe-types" element={<VibeTypes/>} />
-      <Route path="/vibe-lists" element={<VibeLists/>} />
-      <Route path="/vibe-makers" element={<VibeMakers />}></Route>
-      <Route path="/vibes" element={<Vibes />}></Route>
+      <Routes>
+          <Route
+              path="/favorite"
+              element={
+                  <ProtectedRoute>
+                      <Favorite />
+                  </ProtectedRoute>
+              }
+          />
+
+          <Route
+              path="/history"
+              element={
+                  <ProtectedRoute>
+                      <History />
+                  </ProtectedRoute>
+              }
+          />
+
+          <Route
+              path="/by-your-vibe"
+              element={
+                  <ProtectedRoute>
+                      <ByYourVibe />
+                  </ProtectedRoute>
+              }
+          />
+
+          <Route
+              path="/download"
+              element={
+                  <ProtectedRoute>
+                      <Downloads />
+                  </ProtectedRoute>
+              }
+          />
+
+          <Route
+              path="/profile"
+              element={
+                  <ProtectedRoute>
+                      <Profile />
+                  </ProtectedRoute>
+              }
+          />
+
+          <Route path="/" element={<Home />} />
+          <Route path="/search" element={<SearchPage />} />
 
 
-        <Route path="/artist/:slug" element={<SingleArtist />} />
-        <Route path="/song/:slug" element={<SingleSong />} />
-        <Route path="/album/:slug" element={<SingleAlbum />} />
-        <Route path="/playlist/:slug" element={<SinglePlaylist />} />
-        <Route path="/remixer/:slug" element={<SingleRemixer />} />
+
+          <Route
+              path="/login"
+              element={
+                  <GuestRoute>
+                      <Login />
+                  </GuestRoute>
+              }
+          />
+
+          <Route
+              path="/register"
+              element={
+                  <GuestRoute>
+                      <Register />
+                  </GuestRoute>
+              }
+          />
+
+          <Route path="/party-vibe" element={<PartyVibe />} />
+          <Route path="/new-vibes" element={<NewVibes />} />
+          <Route path="/vibe-types" element={<VibeTypes />} />
+          <Route path="/vibe-lists" element={<VibeLists />} />
+          <Route path="/vibe-makers" element={<VibeMakers />} />
+          <Route path="/vibes" element={<Vibes />} />
+
+          <Route path="/artist/:slug" element={<SingleArtist />} />
+          <Route path="/song/:slug" element={<SingleSong />} />
+          <Route path="/album/:slug" element={<SingleAlbum />} />
+          <Route path="/playlist/:slug" element={<SinglePlaylist />} />
+          <Route path="/remixer/:slug" element={<SingleRemixer />} />
+
+          <Route path="/the-mosts" element={<TheMosts />} />
+          <Route path="/vibe-remixers" element={<VibeRemixers />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/info" element={<Info />} />
+
+          <Route path="*" element={<NotFound404 />} />
 
 
-        <Route path="/by-your-vibe" element={ <ByYourVibe/>} />
-      <Route path="/the-mosts" element={<TheMosts/>} />
-      <Route path="/vibe-remixers" element={<VibeRemixers />} />
-      <Route path="/settings" element={<Settings />} />
-      <Route path="/download" element={<Downloads/>} />
-      <Route path="/info" element={<Info/>} />
-      <Route path="*" element={<NotFound404/>} />
-    </Routes>
+      </Routes>
   );
 
   return (

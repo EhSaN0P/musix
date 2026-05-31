@@ -8,9 +8,9 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import MediaCard from "../../Cards/MediaGridCard.jsx";
 import apiService from '../../../services/apiService';
+import {setCredentials} from "../../../store/authSlice.js";
 const FAV_KEY = 'musix_favorites';
 function loadFavs() { try { return JSON.parse(localStorage.getItem(FAV_KEY)) || []; } catch { return []; } }
-function saveFavs(ids) { localStorage.setItem(FAV_KEY, JSON.stringify(ids)); }
 
 // ---- Tabs config ----
 const TABS = [
@@ -24,7 +24,11 @@ const TABS = [
 
 
 export default function Home() {
+  const { user, isAuthenticated } = useSelector(
+      (state) => state.auth
+  );
 
+ 
 
   const currentThem = useSelector(state => state.theme.currentTheme);
    const lang = useSelector(s => s.languages.currentLang);

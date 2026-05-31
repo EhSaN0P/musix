@@ -1,12 +1,11 @@
 import './SideBarDesktop.css'
 import {motion} from "framer-motion";
-import {useNavigate, useLocation} from "react-router-dom";
-import {useEffect, useState, useRef} from "react";
+ import {useEffect, useState, useRef} from "react";
 import {useSelector} from "react-redux";
 import {Button, List, ListItem, Tooltip} from "@mui/material";
 import * as Icons from "@mui/icons-material";
 import * as Lucide from "lucide-react"
-
+import { useNavigate, useLocation } from "react-router-dom";
 
 
 import {themes} from "../../../../setting/them.js";
@@ -14,18 +13,60 @@ import MusixIconEN from "../../../../assets/custom_icons/MusixIcons/MusixIconEN.
 import MusixIconFA from "../../../../assets/custom_icons/MusixIcons/MusixIconFA.jsx";
 import SideBarItemDesktop from "./SideBarItemDesktop/SideBarItemDesktop.jsx";
 import {langs} from "../../../../setting/lang.jsx";
-
+import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
+import { logout } from "../../../../store/authSlice.js";
+import apiService from "../../../../services/apiService.js";
 
 
 
 
 export default function SideBarDesktop( ) {
+    const navigate = useNavigate();
+    const currentLanguage = useSelector(state => state.languages.currentLang);
 
+
+    const dispatch = useDispatch();
+
+    const handleLogout = async () => {
+        const result = await Swal.fire({
+            title: langs[currentLanguage].swalLogout.title,
+            text: langs[currentLanguage].swalLogout.text,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: langs[currentLanguage].swalLogout.yes,
+            cancelButtonText: langs[currentLanguage].swalLogout.no,
+            reverseButtons: true,
+        });
+
+        if (!result.isConfirmed) return;
+
+        try {
+            await apiService.post("/auth/logout");
+            dispatch(logout());
+            navigate("/");
+        } catch (error) {
+            Swal.fire({
+                icon: "error",
+                title: "خطا",
+                text: error.message || "مشکلی رخ داده است",
+            });
+        }
+    };
+
+    const handleLogin = () => {
+        navigate("/login");
+    };
+
+
+
+    const { user, isAuthenticated } = useSelector(
+        (state) => state.auth
+    );
 
     const lang = useSelector(state => state.languages.currentLang)
     const currentThem = useSelector(state => state.theme.currentTheme)
-    const navigate = useNavigate();
-    const location = useLocation();
+     const location = useLocation();
     const [isFlipped, setIsFlipped] = useState(false);
     const [progress, setProgress] = useState(0);
     const containerRef = useRef(null);
@@ -112,11 +153,15 @@ export default function SideBarDesktop( ) {
 
                             </Button>
                         </Tooltip>
+
+                        {isAuthenticated &&
+
                         <Tooltip title={langs[lang].tooltip.logout} placement="top">
                             <Button
                                 color={themes[currentThem].lists.logout}
                                 className={'list-item'}
                                 variant={'contained'}
+                                onClick={handleLogout}
                                 sx={{
                                     width: '100%',
                                     display: 'flex',
@@ -125,9 +170,31 @@ export default function SideBarDesktop( ) {
                                 }}
                             >
                                 <Icons.Logout />
-
                             </Button>
+
                         </Tooltip>
+                        }
+
+                        {!isAuthenticated &&
+
+                            <Tooltip title={langs[lang].tooltip.login} placement="top">
+                                <Button
+                                    color={themes[currentThem].popUp.login}
+                                    className={'list-item'}
+                                    variant={'contained'}
+                                    sx={{
+                                        width: '100%',
+                                        display: 'flex',
+                                        gap: 1,
+                                        justifyContent: 'center'
+                                    }}
+                                    onClick={handleLogin}
+                                >
+                                    <Icons.Login />
+
+                                </Button>
+                            </Tooltip>
+                        }
 
 
                     </div>
@@ -137,7 +204,9 @@ export default function SideBarDesktop( ) {
                 {/* پشت - صفحه دوم */}
                 <aside className="side-bar sidebar-back glass-bg">
                     <div className="back-header">
-                        <h3 style={{color:themes[currentThem].lists.ListItemText}}>Settings & More</h3>
+                        <h3 style={{color:themes[currentThem].lists.ListItemText}}>
+                            {langs[currentLanguage].flippedPage}
+                        </h3>
                     </div>
 
                     <List>
