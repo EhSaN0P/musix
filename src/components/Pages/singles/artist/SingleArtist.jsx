@@ -1,25 +1,70 @@
 import './SingleArtist.css';
-import { useParams } from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import { Play, Heart } from "lucide-react";
+import {useEffect, useState} from "react";
+import apiService from "../../../../services/apiService.js";
+import MusicLoader from "../../../MusicLoader/MusicLoader.jsx";
 
 export default function SingleArtist() {
     const { slug } = useParams();
+
+     const [artist, setArtist] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [isFavorite, setIsFavorite] = useState(false);
+
+    useEffect(() => {
+        const fetchTrack = async () => {
+            try {
+                setLoading(true);
+
+                const response = await apiService.get(`/artists/${slug}`);
+
+                setArtist(response.data.artist);
+                const checkFavorite = async () => {
+                    const res = await apiService.get(
+                        `/favorites/artists/${response.data.artist.id}/check`
+                    );
+
+                    setIsFavorite(res.data.favorited);
+                };
+
+                checkFavorite();
+
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (slug) fetchTrack();
+    }, [slug]);
+
+    if (loading) {
+        return <div className="song-page"><MusicLoader/></div>;
+    }
+
+    if (!artist) {
+        return <div className="song-page">artist not found</div>;
+    }
+
+    console.log(artist);
 
     return (
         <div className="artist-page">
             <div className="artist-header">
                 <img
-                    src="https://picsum.photos/300"
-                    alt={slug}
+                    src={artist.cover_image || "/images/artist/default.png"}
+                    alt={artist.name}
                     className="artist-cover"
                 />
 
                 <div className="artist-info">
                     <span className="verified">✓ Verified Artist</span>
 
-                    <h1>{slug.replaceAll('-', ' ')}</h1>
+                    <h1>{artist.name}</h1>
 
-                    <p>12,345,678 monthly listeners</p>
+                    <p>{artist.followers_count.toLocaleString()} monthly listeners</p>
                 </div>
             </div>
 
@@ -28,30 +73,43 @@ export default function SingleArtist() {
                     <Play size={22} fill="white" />
                 </button>
 
-                <button className="follow-btn">
-                    <Heart size={18} />
-                    Follow
-                </button>
+                <button
+                    className="follow-btn"
+                    onClick={async () => {
+                        const res = await apiService.post(
+                            `/favorites/artists/${artist.id}`
+                        );
+
+                        setIsFavorite(res.data.favorited);
+                    }}
+                >
+                    <Heart
+                        fill={isFavorite ? "#ef4444" : "none"}
+                        color={isFavorite ? "#ef4444" : "currentColor"}
+                    />
+                 </button>
             </div>
 
             <section className="popular-section">
                 <h2>Popular</h2>
 
-                {[1, 2, 3, 4, 5].map((song) => (
-                    <div key={song} className="song-row">
-                        <span>{song}</span>
+                {artist.tracks.map((track,index) => (
+                    <Link to={`/song/${track.id}`}>
+                        <div key={track.id} className="song-row">
+                            <span>{++index}</span>
 
-                        <div className="song-info">
-                            <img
-                                src={`https://picsum.photos/50?random=${song}`}
-                                alt=""
-                            />
+                            <div className="song-info">
+                                <img
+                                    src={track.cover_image || "/images/song/default.png"}
+                                    alt={track.title}
+                                />
 
-                            <span>Song {song}</span>
+                                <span>{track.title}</span>
+                            </div>
+
+                            <span>{track.duration || "3:25"}</span>
                         </div>
-
-                        <span>3:25</span>
-                    </div>
+                    </Link>
                 ))}
             </section>
 
@@ -59,21 +117,21 @@ export default function SingleArtist() {
                 <h2>Albums</h2>
 
                 <div className="albums-grid">
-                    {[1, 2, 3, 4].map((album) => (
-                        <div key={album} className="album-card">
-                            <img
-                                src={`https://picsum.photos/300?random=${album}`}
-                                alt=""
-                            />
+                    {artist.albums.length <=0 ? 'no album'  :artist.albums.map((album) => (
+                        <Link to={`/album/${album.id}`}>
+                            <div key={album.id} className="album-card">
+                                <img
+                                    src={album.image || "/images/album/default.png"}
+                                    alt={album.name}
+                                />
 
-                            <h4>Album {album}</h4>
-                            <span>2025 • Album</span>
-                        </div>
+                                <h4>{album.name}</h4>
+                                <span>{album.release_date || "تاریخ نامشخص"} • Album</span>
+                            </div>
+                        </Link>
                     ))}
                 </div>
             </section>
-
-
         </div>
     );
 }

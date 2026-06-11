@@ -1,15 +1,14 @@
-import {fakeSongs} from "../../../data/fakeDb.js";
-import SongCard from "../../Cards/SongCard.jsx";
-import './Vibes.css'
+import '../Home/Home.css';
+import ApiMediaGrid from "../ApiMediaGrid.jsx";
 
-export default function Vibes(){
-
-    return <>
-        <section className={'content-grid'}>
-
-        {fakeSongs.map((item, index) => (
-            <SongCard item={item} />
-        ))}
-        </section>
-    </>
+export default function Vibes() {
+    return (
+        <ApiMediaGrid
+            queryKey="vibes"
+            url="/tracks"
+            title="Vibes"
+            subtitle="Explore all original tracks"
+            select={(data) => data?.data || []}
+        />
+    );
 }

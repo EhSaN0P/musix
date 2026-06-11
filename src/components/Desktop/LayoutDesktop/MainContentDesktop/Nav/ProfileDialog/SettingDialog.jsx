@@ -1,7 +1,9 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Avatar, TextField, IconButton, Box } from '@mui/material';
-import { PhotoCamera, Settings } from '@mui/icons-material';
+import {Close, PhotoCamera, Settings} from '@mui/icons-material';
 import { useState } from 'react';
 import { styled } from '@mui/material/styles';
+import Profile from "../../../../../Pages/Profile/Profile.jsx";
+import {CloseButton} from "@headlessui/react";
 
 // Styled Components
 const GlassDialog = styled(Dialog)(({ theme }) => ({
@@ -157,72 +159,10 @@ export default function SettingDialog({ open, onClose, onNavigateToProfile }) {
             maxWidth="sm"
             fullWidth
         >
-            <DialogTitle sx={{ textAlign: 'center', pt: 3, pb: 2 }}>
-                <Typography
-                    variant="h5"
-                    sx={{
-                        fontWeight: 600,
-                        color: '#fff',
-                    }}
-                >
-                    تنظیمات پروفایل
-                </Typography>
-            </DialogTitle>
-
-            <DialogContent sx={{ px: 4, py: 3 }}>
-                <Box sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: 3
-                }}>
-                    {/* Avatar Section */}
-                    <Box sx={{ position: 'relative', mb: 2 }}>
-                        <GlassAvatar src={profileImage}>
-                            {!profileImage && username.charAt(0)}
-                        </GlassAvatar>
-                        <input
-                            accept="image/*"
-                            style={{ display: 'none' }}
-                            id="profile-image-upload"
-                            type="file"
-                            onChange={handleImageChange}
-                        />
-                        <label htmlFor="profile-image-upload">
-                            <CameraButton component="span">
-                                <PhotoCamera />
-                            </CameraButton>
-                        </label>
-                    </Box>
-
-                    {/* Username Field */}
-                    <GlassTextField
-                        fullWidth
-                        label="نام کاربری"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        variant="outlined"
-                    />
-
-                    {/* Profile Link Button */}
-                    <ProfileButton
-                        fullWidth
-                        startIcon={<Settings />}
-                        onClick={onNavigateToProfile}
-                    >
-                        ویرایش کامل پروفایل
-                    </ProfileButton>
-                </Box>
-            </DialogContent>
-
-            <DialogActions sx={{ px: 4, pb: 3, pt: 2, gap: 2, justifyContent: 'center' }}>
-                <CancelButton onClick={onClose}>
-                    انصراف
-                </CancelButton>
-                <SubmitButton onClick={handleSubmit} variant="contained">
-                    ثبت تغییرات
-                </SubmitButton>
-            </DialogActions>
+            <IconButton sx={{width:'fit-content',margin:2}} color={'error'}>
+                <Close onClick={onClose} />
+            </IconButton>
+           <Profile/>
         </GlassDialog>
     );
 }

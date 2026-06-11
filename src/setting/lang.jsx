@@ -31,7 +31,6 @@ export const langs = {
                 quick_menu : [
                     { name: 'حس های جدید ', icon:<Lucid.Activity />, path: '/' },
                     { name: 'علاقه مندی', icon:<Icons.Favorite />, path: '/favorite' },
-                    { name: '🎉 پارتی وایب', icon:<Icons.Celebration />, path: '/party-vibe' },
                     { name: 'پروفایل ', icon: <Icons.Person />, path: '/profile' },
                 ]
             },
@@ -71,6 +70,9 @@ export const langs = {
             },remixes: {
                 id:'remixes',
                 value:'ریمیکس ها'
+            },remixers: {
+                id:'remixers',
+                value:'ریمیکسر ها'
             },
             notFoundSearch: 'چیزی پیدا نشد',
             searchSomeThing:'چیزی برای جستجو تایپ کنید',
@@ -125,7 +127,6 @@ export const langs = {
             quick_menu : [
                 { name: 'New Vibes', icon:<Lucid.Activity />, path: '/' },
                 { name: 'Favorite', icon:<Icons.Favorite />, path: '/favorite' },
-                { name: ' Party Vibe', icon:<Icons.Celebration />, path: '/party-vibe' },
                 { name: 'Profile', icon: <Icons.Person />, path: '/profile' },
             ]
         },
@@ -165,6 +166,9 @@ export const langs = {
             },remixes: {
                 id:'remixes',
                 value:'remixes  '
+            },remixers: {
+                id:'remixers',
+                value:'remixers  '
             },
             searchPlaceholder:'what do you looking for ?',
             notFoundSearch: 'not found',

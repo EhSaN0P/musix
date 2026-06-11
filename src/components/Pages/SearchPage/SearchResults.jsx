@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
- import './SearchResults.css';
+import './SearchResults.css';
 import { useSelector } from "react-redux";
 import { langs } from "../../../setting/lang.jsx";
 import MediaGridCard from "../../Cards/MediaGridCard.jsx";
@@ -18,13 +18,24 @@ export default function SearchResults({ query, results, activeFilter }) {
         );
     }
 
-    const hasResults =
-        (results?.songs?.length ?? 0) > 0 ||
-        (results?.albums?.length ?? 0) > 0 ||
-        (results?.artists?.length ?? 0) > 0 ||
-        (results?.remixes?.length ?? 0) > 0 ||
-        (results?.playlists?.length ?? 0) > 0;
 
+
+    // ✅ fix: safe fallback
+    const tracks = results?.tracks || [];
+    const remixes = results?.remixes || [];
+    const remixers = results?.remixes || [];
+    const albums = results?.albums || [];
+    const artists = results?.artists || [];
+    const playlists = results?.playlists || [];
+
+    const hasResults =
+        tracks.length > 0 ||
+        albums.length > 0 ||
+        artists.length > 0 ||
+        playlists.length > 0 ||
+        remixes.length > 0;
+        remixers.length > 0;
+1
     if (!hasResults) {
         return (
             <Box className={`search-results ${currentTheme}`}>
@@ -35,127 +46,136 @@ export default function SearchResults({ query, results, activeFilter }) {
         );
     }
 
-    // تابع کمکی برای یکسان‌سازی فرمت دیتا برای MediaCard
-    // اگر کلیدهای دیتای شما فرق دارد (مثلا به جای image از coverProfile استفاده شده)، اینجا را تغییر دهید
-    const formatItem = (data, type) => ({
-        id: data.id,
-        title: data.title || data.name || 'بدون عنوان',
-        subtitle: data.subtitle || data.artist || data.singer || (type === 'artists' ? 'آرتیست' : ''),
-        image: data.image || data.cover || data.thumbnail || '',
-        type: type
-    });
-
     return (
         <Box className={`search-results ${currentTheme}`}>
 
             {/* Songs */}
-            {(activeFilter === 'all' || activeFilter === 'songs') && (results?.songs?.length ?? 0) > 0 && (
+            {(activeFilter === 'all' || activeFilter === 'songs') && tracks.length > 0 && (
                 <Box className="results-section">
                     <Typography variant="h6" className="section-title">
-                        {langs[currentLang].searchFilters.songs.value} ({results.songs.length})
+                        {langs[currentLang].searchFilters.songs.value} ({tracks.length})
                     </Typography>
+
                     <div className="content-grid">
-                        <div className="content-grid">
-                            {results.songs.map(item=>(
-                                <MediaGridCard
-                                    key={item.id}
-                                    item={{
-                                        ...item,
-                                        type:'song'
-                                    }}
-                                />
-                            ))}
-                        </div>
+                        {tracks.map(item => (
+                            <MediaGridCard
+                                key={item.id}
+                                item={{
+                                    ...item,
+                                    type: 'original',
+                                    type2: item.type
+                                }}
+                            />
+                        ))}
                     </div>
                 </Box>
             )}
 
             {/* Albums */}
-            {(activeFilter === 'all' || activeFilter === 'albums') && (results?.albums?.length ?? 0) > 0 && (
+            {(activeFilter === 'all' || activeFilter === 'albums') && albums.length > 0 && (
                 <Box className="results-section">
                     <Typography variant="h6" className="section-title">
-                        {langs[currentLang].searchFilters.albums.value} ({results.albums.length})
+                        {langs[currentLang].searchFilters.albums.value} ({albums.length})
                     </Typography>
+
                     <div className="content-grid">
-                        <div className="content-grid">
-                            {results.albums.map(item=>(
-                                <MediaGridCard
-                                    key={item.id}
-                                    item={{
-                                        ...item,
-                                        type:'albums'
-                                    }}
-                                />
-                            ))}
-                        </div>
+                        {albums.map(item => (
+                            <MediaGridCard
+                                key={item.id}
+                                item={{
+                                    ...item,
+                                    type: 'album',
+                                }}
+                            />
+                        ))}
                     </div>
                 </Box>
             )}
 
             {/* Artists */}
-            {(activeFilter === 'all' || activeFilter === 'artists') && (results?.artists?.length ?? 0) > 0 && (
+            {(activeFilter === 'all' || activeFilter === 'artists') &&
+                artists.filter(item => item.type !== 'remixer').length > 0 && (
+
+                    <Box className="results-section">
+
+                        <Typography variant="h6" className="section-title">
+                            {langs[currentLang].searchFilters.artists.value} (
+                            {artists.filter(item => item.type !== 'remixer').length}
+                            )
+                        </Typography>
+
+                        <div className="content-grid">
+                            {artists
+                                .filter(item => item.type !== 'remixer')
+                                .map(item => (
+                                    <MediaGridCard
+                                        key={item.id}
+                                        item={item}
+                                    />
+                                ))}
+                        </div>
+
+                    </Box>
+                )}
+
+            {/* Remixers */}
+            {(activeFilter === 'all' || activeFilter === 'remixers') && remixers.length > 0 && (
                 <Box className="results-section">
                     <Typography variant="h6" className="section-title">
-                        {langs[currentLang].searchFilters.artists.value} ({results.artists.length})
+                        {langs[currentLang].searchFilters.remixers.value} ({remixers.length})
                     </Typography>
+
                     <div className="content-grid">
-                        <div className="content-grid">
-                            {results.artists.map(item=>(
-                                <MediaGridCard
-                                    key={item.id}
-                                    item={{
-                                        ...item,
-                                        type:'artist'
-                                    }}
-                                />
-                            ))}
-                        </div>
+                        {artists.map(item => (
+                            <MediaGridCard
+                                key={item.id}
+                                item={{
+                                    ...item,
+                                }}
+                            />
+                        ))}
                     </div>
                 </Box>
             )}
 
-            {/* Remixes */}
-            {(activeFilter === 'all' || activeFilter === 'remixes') && (results?.remixes?.length ?? 0) > 0 && (
+
+            {/* Remixes (FIXED) */}
+            {(activeFilter === 'all' || activeFilter === 'remixes') && remixes.length > 0 && (
                 <Box className="results-section">
                     <Typography variant="h6" className="section-title">
-                        {langs[currentLang].searchFilters?.remixes?.value ?? 'ریمیکس‌ها'} ({results.remixes.length})
+                        {langs[currentLang].searchFilters?.remixes?.value ?? 'ریمیکس‌ها'} ({remixes.length})
                     </Typography>
+
                     <div className="content-grid">
-
-                        <div className="content-grid">
-                            {results.remixes.map(item=>(
-                                <MediaGridCard
-                                    key={item.id}
-                                    item={{
-                                        ...item,
-                                        type:'remixes'
-                                    }}
-                                />
-                            ))}
-                        </div>
-
+                        {remixes.map(item => (
+                            <MediaGridCard
+                                key={item.id}
+                                item={{
+                                    ...item,
+                                }}
+                            />
+                        ))}
                     </div>
                 </Box>
             )}
 
             {/* Playlists */}
-            {(activeFilter === 'all' || activeFilter === 'playlists') && (results?.playlists?.length ?? 0) > 0 && (
+            {(activeFilter === 'all' || activeFilter === 'playlists') && playlists.length > 0 && (
                 <Box className="results-section">
                     <Typography variant="h6" className="section-title">
-                        {langs[currentLang].searchFilters?.playlists?.value ?? 'پلی‌لیست‌ها'} ({results.playlists.length})
+                        {langs[currentLang].searchFilters?.playlists?.value ?? 'پلی‌لیست‌ها'} ({playlists.length})
                     </Typography>
+
                     <div className="content-grid">
-                        <div className="content-grid">
-                            {results.playlists.map(item=>(
-                                <MediaGridCard
-                                    key={item.id}
-                                    item={{
-                                        ...item,
-                                        type:'playlist'
-                                    }}
-                                />
-                            ))}
-                        </div>
+                        {playlists.map(item => (
+                            <MediaGridCard
+                                key={item.id}
+                                item={{
+                                    ...item,
+                                    type: 'playlist'
+                                }}
+                            />
+                        ))}
                     </div>
                 </Box>
             )}

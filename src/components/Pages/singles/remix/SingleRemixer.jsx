@@ -6,19 +6,73 @@ import {
     Send,
     Globe
 } from "lucide-react";
+import {useEffect, useState} from "react";
+import apiService from "../../../../services/apiService.js";
+import MusicLoader from "../../../MusicLoader/MusicLoader.jsx";
 
 export default function SingleRemixer() {
-
     const { slug } = useParams();
 
-    const remixes = [
-        { id: 1, title: "Summer Night Remix", plays: "1.2M" },
-        { id: 2, title: "Deep House Version", plays: "850K" },
-        { id: 3, title: "Faded Remix", plays: "620K" },
-        { id: 4, title: "Ocean Drive Remix", plays: "510K" }
-    ];
+    const [remixer, setRemixer] = useState(null);
+     const [loading, setLoading] = useState(true);
+    const [isFavorite, setIsFavorite] = useState(false);
 
-    return (
+    const fetchRemixer  = async () => {
+        try {
+            setLoading(true);
+
+
+            const response = await apiService.get(`/remixers/${slug}`);
+
+            const remixer = response.data.remixer;
+
+            setRemixer(remixer);
+
+
+            const checkFavorite = async (type, id) => {
+                const res = await apiService.get(`/favorites/${type}/${id}/check`);
+                return res.data.favorited;
+            };
+
+
+
+            const fav = await checkFavorite('remixers', remixer.id);
+            setIsFavorite(fav);
+
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        if (!slug) return;
+        fetchRemixer();
+    }, [slug]);
+
+    const handleFavorite = async () => {
+        try {
+            if (!remixer) return;
+
+            const res = await apiService.post(
+                `/favorites/remixers/${remixer.id}`
+            );
+
+
+
+            setIsFavorite(res.data.favorited);
+
+
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    if (loading) return <div className="song-page"><MusicLoader /></div>;
+    if (!remixer) return <div className="song-page">Song not found</div>;
+
+     return (
         <div className="remixer-page">
 
             <div className="remixer-hero">
@@ -30,24 +84,23 @@ export default function SingleRemixer() {
                     </span>
 
                     <h1>
-                        {slug.replaceAll("-", " ")}
+                        {remixer.name}
                     </h1>
 
                     <p>
-                        Deep House • Progressive House • Techno
+                        {remixer.type }
                     </p>
 
                     <div className="remixer-meta">
 
-                        <span>120K Followers</span>
+                        <span>{remixer.followers_count } Followers</span>
 
                         <span>•</span>
 
-                        <span>2.4M Plays</span>
+                        {/*<span>2.4M Plays</span>*/}
 
-                        <span>•</span>
 
-                        <span>86 Remixes</span>
+                        <span>{remixer.tracks.length} Remixes</span>
 
                     </div>
 
@@ -61,9 +114,10 @@ export default function SingleRemixer() {
                     <Play fill="white" />
                 </button>
 
-                <button className="follow-btn">
-                    <Heart />
-                    Follow
+                <button onClick={handleFavorite} className="follow-btn">
+                    <Heart style={{color:'red'}}   fill={isFavorite ? "red" : "none"} />
+                    {isFavorite ? "Following" : "Follow"}
+
                 </button>
 
             </div>
@@ -133,20 +187,20 @@ export default function SingleRemixer() {
 
                 <h2>Popular Remixes</h2>
 
-                {remixes.map((item, index) => (
-                    <div
-                        key={item.id}
-                        className="remix-row"
-                    >
-                        <span>{index + 1}</span>
+                {/*{remixer.map((item, index) => (*/}
+                {/*    <div*/}
+                {/*        key={item.id}*/}
+                {/*        className="remix-row"*/}
+                {/*    >*/}
+                {/*        <span>{index + 1}</span>*/}
 
-                        <div className="remix-info">
-                            <h4>{item.title}</h4>
-                            <span>{item.plays} plays</span>
-                        </div>
+                {/*        <div className="remix-info">*/}
+                {/*            <h4>{item.title}</h4>*/}
+                {/*            <span>{item.plays} plays</span>*/}
+                {/*        </div>*/}
 
-                    </div>
-                ))}
+                {/*    </div>*/}
+                {/*))}*/}
 
             </section>
 

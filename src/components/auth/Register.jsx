@@ -11,7 +11,6 @@ export default function Register() {
 
     const [form, setForm] = useState({
         name: '',
-        username: '',
         email: '',
         password: '',
         password_confirmation: '',
@@ -39,9 +38,9 @@ export default function Register() {
                 form
             );
 
-            dispatch(
+              dispatch(
                 setCredentials({
-                    user: res.data.user,
+                    user: res.data.user[0],
                     token: res.data.token,
                 })
             );
@@ -64,13 +63,6 @@ export default function Register() {
                     name="name"
                     placeholder="نام"
                     value={form.name}
-                    onChange={handleChange}
-                />
-                <input
-                    type="text"
-                    name="username"
-                    placeholder="نام کاربری"
-                    value={form.username}
                     onChange={handleChange}
                 />
 

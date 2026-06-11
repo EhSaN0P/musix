@@ -10,10 +10,10 @@ export default function PlaylistCard({ item }) {
 
             <Link
                 className="media-image"
-                to={`/playlist/${item.slug}`}
+                to={`/playlist/${item.id}`}
             >
                 <img
-                    src={item.image || "/images/placeholder-song.jpg"}
+                    src={item.image || "/images/playlist/default.png"}
                     alt={item.title}
                 />
             </Link>

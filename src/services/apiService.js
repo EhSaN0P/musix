@@ -1,12 +1,17 @@
 import axios from 'axios';
+import { store } from '../store/store';
+import { logout } from '../store/authSlice';
 
 const apiService = axios.create({
-    baseURL: 'http://localhost:8000/api',
+    baseURL: 'http://musix6.ir',
     timeout: 10000,
     headers: {
         'Content-Type': 'application/json',
     },
 });
+
+
+
 
 // قبل از ارسال هر درخواست
 apiService.interceptors.request.use(
@@ -33,6 +38,7 @@ apiService.interceptors.response.use(
 
         if (error.response?.status === 401) {
             localStorage.removeItem('token');
+            store.dispatch(logout());
         }
 
         console.error('API Error:', errorMessage);

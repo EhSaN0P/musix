@@ -11,7 +11,7 @@ export default function RemixCard({ item }) {
         <section className={'remixers-grid'}>
 
         <Link
-            to={`/remixer/${item.slug}`}
+            to={`/remixer/${item.id}`}
             className="remixer-card"
         >
             <div className="vinyl-wrapper">
@@ -19,8 +19,8 @@ export default function RemixCard({ item }) {
                 <div className="vinyl-record">
 
                     <img
-                        src={item.image || "/images/placeholder-song.jpg"}
-                        alt={item.title}
+                        src={item.image || "/images/playlist/default.png"}
+                        alt={item.name}
                         className="vinyl-label"
                     />
 
@@ -32,29 +32,13 @@ export default function RemixCard({ item }) {
 
             <div className="remixer-info">
 
-                <h3>{item.title}</h3>
+                <h3>{item.name}</h3>
 
-                <span className="dj-style">
-                    {item.style || "Deep House"}
-                </span>
+                {/*<span className="dj-style">*/}
+                {/*    {item.style || "Deep House"}*/}
+                {/*</span>*/}
 
-                <div className="dj-stats">
 
-                    <div className="stat">
-                        <HeadphonesIcon fontSize="small" />
-                        <span>
-                            {item.followers || "120K"} شنونده
-                        </span>
-                    </div>
-
-                    <div className="stat">
-                        <GraphicEqIcon fontSize="small" />
-                        <span>
-                            {item.tracks || "25"} ریمیکس
-                        </span>
-                    </div>
-
-                </div>
 
                 <button className="play-mixes-btn">
 

@@ -5,17 +5,48 @@ import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LanguageIcon from '@mui/icons-material/Language';
 import SecurityIcon from '@mui/icons-material/Security';
+import { useDispatch, useSelector } from 'react-redux';
+import { setTheme } from '../../../store/themSlice.js';
+import { setLang } from '../../../store/langSlice.js';
+import apiService from '../../../services/apiService.js';
 import './Settings.css';
 
 const Settings = () => {
+    const dispatch = useDispatch();
+    const currentTheme = useSelector(s => s.theme.currentTheme);
+    const currentLang = useSelector(s => s.languages.currentLang);
+    const user = useSelector(s => s.auth.user);
     const [settings, setSettings] = React.useState({
         notifications: true,
-        darkMode: true,
+        darkMode: currentTheme !== 'light',
         highQualityAudio: false,
     });
 
+    const persistPreference = async (nextSettings = settings, lang = currentLang) => {
+        const preferences = { theme: nextSettings.darkMode ? 'blue' : 'light', language: lang };
+
+        if (user) {
+            await apiService.put('/profile', { bio: user.bio || '', preferences }).catch(console.error);
+        } else {
+            localStorage.setItem('preferences', JSON.stringify(preferences));
+        }
+    };
+
     const handleToggle = (name) => {
-        setSettings(prev => ({ ...prev, [name]: !prev[name] }));
+        const next = { ...settings, [name]: !settings[name] };
+        setSettings(next);
+
+        if (name === 'darkMode') {
+            dispatch(setTheme(next.darkMode ? 'blue' : 'light'));
+        }
+
+        persistPreference(next);
+    };
+
+    const toggleLanguage = () => {
+        const nextLang = currentLang === 'fa' ? 'en' : 'fa';
+        dispatch(setLang(nextLang));
+        persistPreference(settings, nextLang);
     };
 
     const containerVariants = {
@@ -69,12 +100,12 @@ const Settings = () => {
                     <Switch checked={settings.highQualityAudio} onChange={() => handleToggle('highQualityAudio')} color="info" />
                 </motion.div>
 
-                <motion.div variants={itemVariants} className="setting-item clickable">
+                <motion.div variants={itemVariants} className="setting-item clickable" onClick={toggleLanguage}>
                     <div className="setting-info">
                         <LanguageIcon className="setting-icon" />
                         <div>
                             <h3>زبان اپلیکیشن</h3>
-                            <p>فارسی (FA)</p>
+                            <p>{currentLang.toUpperCase()}</p>
                         </div>
                     </div>
                 </motion.div>

@@ -1,89 +1,145 @@
 // SearchPage.jsx
+
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Box } from '@mui/material';
+
 import SearchInput from './SearchInput';
 import SearchTabs from './SearchTabs';
 import SearchResults from './SearchResults';
-import { mockData } from './mockData';
+
+import apiService from '../../../services/apiService.js';
+
 import './SearchPage.css';
 
 export default function SearchPage() {
+
+    const normalizeTrack = (item) => ({
+        ...item,
+        type: item.type === "remix" ? "remix" : "original",
+        image: item.cover,
+        title: item.title,
+        subtitle: item.artist?.name,
+    });
+
+    const normalizeArtist = (item) => ({
+        ...item,
+        type: "artist",
+        image: item.avatar,
+        title: item.name,
+        subtitle: `${item.followers_count || 0} followers`,
+    });
+
+    const normalizeAlbum = (item) => ({
+        ...item,
+        type: "album",
+        image: item.cover,
+        subtitle: item.artist?.name,
+    });
+
+    const normalizePlaylist = (item) => ({
+        ...item,
+        type: "playlist",
+        image: item.cover,
+        subtitle: item.user?.name,
+    });
+
+
+
+
+
     const [searchParams, setSearchParams] = useSearchParams();
+
     const query = searchParams.get('q') || '';
     const filterParam = searchParams.get('filter') || 'all';
 
     const [searchValue, setSearchValue] = useState(query);
     const [activeFilter, setActiveFilter] = useState(filterParam);
 
+    const [results, setResults] = useState({
+        tracks: [],
+        artists: [],
+        albums: [],
+        playlists: [],
+    });
+
+    const [loading, setLoading] = useState(false);
+
     const handleChange = (e) => {
         setSearchValue(e.target.value);
     };
 
-    const handleFilterChange = (event, newValue) => {
+    const handleFilterChange = (_, newValue) => {
         setActiveFilter(newValue);
-        if (searchValue.trim().length > 0) {
-            setSearchParams({ q: searchValue, filter: newValue });
+
+        if (searchValue.trim()) {
+            setSearchParams({
+                q: searchValue,
+                filter: newValue,
+            });
         }
     };
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            if (searchValue.trim().length > 0) {
-                setSearchParams({ q: searchValue, filter: activeFilter });
+            if (searchValue.trim()) {
+                setSearchParams({
+                    q: searchValue,
+                    filter: activeFilter,
+                });
             }
         }, 500);
 
         return () => clearTimeout(timer);
-    }, [searchValue, activeFilter, setSearchParams]);
+    }, [searchValue, activeFilter]);
 
     useEffect(() => {
         setSearchValue(query);
         setActiveFilter(filterParam);
     }, [query, filterParam]);
 
-    const filterResults = () => {
-        if (!query) return { songs: [], albums: [], artists: [], remixes: [], playlists: [] };
+    useEffect(() => {
+        const fetchResults = async () => {
+            if (!query.trim()) {
+                const data = res.data;
 
-        const searchLower = query.toLowerCase();
+                setResults({
+                    tracks: (data.tracks || []).map(normalizeTrack),
+                    artists: (data.artists || []).map(normalizeArtist),
+                    albums: (data.albums || []).map(normalizeAlbum),
+                    playlists: (data.playlists || []).map(normalizePlaylist),
+                });
 
-        const filteredSongs = mockData.songs.filter(song =>
-            song.title.toLowerCase().includes(searchLower) ||
-            song.artist.toLowerCase().includes(searchLower)
-        );
+                return;
+            }
 
-        const filteredAlbums = mockData.albums.filter(album =>
-            album.title.toLowerCase().includes(searchLower) ||
-            album.artist.toLowerCase().includes(searchLower)
-        );
+            try {
+                setLoading(true);
 
-        const filteredArtists = mockData.artists.filter(artist =>
-            artist.name.toLowerCase().includes(searchLower)
-        );
+                const res = await apiService.get('/search', {
+                    params: {
+                        q: query,
+                    },
+                });
 
-        // جستجو در ریمیکس‌ها
-        const filteredRemixes = mockData.remixes.filter(remix =>
-            remix.title.toLowerCase().includes(searchLower) ||
-            remix.artist.toLowerCase().includes(searchLower)
-        );
+                setResults(res.data);
+            } catch (error) {
+                console.error(error);
 
-        // جستجو در پلی‌لیست‌ها
-        const filteredPlaylists = mockData.playlists.filter(playlist =>
-            playlist.title.toLowerCase().includes(searchLower) ||
-            playlist.creator.toLowerCase().includes(searchLower)
-        );
+                setResults({
+                    tracks: [],
+                    artists: [],
+                    albums: [],
+                    playlists: [],
+                });
+            } finally {
+                 setLoading(false);
 
-        return {
-            songs: filteredSongs,
-            albums: filteredAlbums,
-            artists: filteredArtists,
-            remixes: filteredRemixes,
-            playlists: filteredPlaylists
+            }
         };
-    };
 
-
-    const results = filterResults();
+        fetchResults();
+    }, [query]);
 
     return (
         <Box className="search-page">
@@ -103,6 +159,7 @@ export default function SearchPage() {
                 query={query}
                 results={results}
                 activeFilter={activeFilter}
+                loading={loading}
             />
         </Box>
     );

@@ -1,7 +1,7 @@
 import './Nav.css';
 
 import   { useState } from 'react';
-import {AppBar, Toolbar, IconButton, Menu, MenuItem, Typography, Divider, Button} from '@mui/material';
+import {AppBar, Toolbar, IconButton, Menu, MenuItem, Typography, Divider, Button, Avatar, Box} from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SettingDialog from './ProfileDialog/SettingDialog.jsx';
  import {ColorLensSharp, ImageSearch, Logout, MusicNote, MusicVideo, Person, QueueMusicSharp} from "@mui/icons-material";
@@ -13,6 +13,7 @@ import ThemeDialog from './ThemeDialog/ThemeDialog.jsx';
 import {setTheme} from "../../../../../store/themSlice.js";
 import {setLang} from "../../../../../store/langSlice.js";
 import SearchInput from "./Search/Search.jsx";
+import {Link} from "react-router-dom";
 
 export default function Nav() {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -37,17 +38,26 @@ export default function Nav() {
     };
 
 
-    return (
-        <AppBar position="static" style={{ background: "transparent", border:"none", boxShadow: "none" }}>
-            <Toolbar>
-                <Typography component={'div'} sx={{ flexGrow: 1 }}>
-                          <SearchInput/>
-                 </Typography>
+    const {isAuthenticated,user} = useSelector(state => state.auth);
 
+     return (
+        <AppBar position="static" style={{ background: "transparent", border:"none", boxShadow: "none" }}>
+            <Toolbar className={'flex justify-between'}>
+                    <Typography component={'div'}  >
+                        <SearchInput/>
+                    </Typography>
+
+                <Box className={'flex justify-between  gap-3'}>
+                    <Link to={'/profile'}>
+                        <Avatar src={user? user.avatar  : '/images/artist.jpg'} >
+
+                        </Avatar>
+                    </Link>
                 <IconButton color="inherit" onClick={handleMenuClick}>
                     <MoreVertIcon />
-
                 </IconButton>
+                </Box>
+
                 <Menu
                     className={'pop-up-menu'}
                     anchorEl={anchorEl}

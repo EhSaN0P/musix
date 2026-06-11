@@ -10,10 +10,10 @@ export default function AlbumCard({ item }) {
 
             <Link
                 className="media-image"
-                to={`/album/${item.slug}`}
+                to={`/album/${item.id}`}
             >
                 <img
-                    src={item.image || "/images/placeholder-song.jpg"}
+                    src={item.image || "/images/album/default.png"}
                     alt={item.title}
                 />
             </Link>

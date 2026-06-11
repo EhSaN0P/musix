@@ -9,10 +9,10 @@ export default function ArtistCard({ item }) {
 
             <Link
                 className="artist-image"
-                to={`/artist/${item.slug}`}
+                to={`/artist/${item.id}`}
             >
                 <img
-                    src={item.image || "/images/artist.jpg"}
+                    src={item.image || "/images/artist/default.png"}
                     alt={item.title}
                 />
             </Link>

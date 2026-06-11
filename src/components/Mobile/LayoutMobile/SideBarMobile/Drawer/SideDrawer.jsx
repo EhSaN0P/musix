@@ -51,8 +51,7 @@ export default function SideDrawer({
                     startIndex={sidebarItems.length}
                 />
 
-                <DrawerFooter/>
-
+                <DrawerFooter setDrawerOpen={setDrawerOpen} />
             </Box>
 
         </Drawer>

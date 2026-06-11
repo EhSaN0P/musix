@@ -4,19 +4,26 @@ import "./SongCard.css";
 import { Link } from "react-router-dom";
 import { Play, Heart } from "lucide-react";
 
-export default function SongCard({ item }) {
+export default function SongCard({ item,isRemix }) {
+
+
 
     return (
         <div className="media-card">
 
-            <div className="media-image">
+            <div
+                className={'media-image   ' + (isRemix ? " shadow-sm  " : "")}
+            >
 
-                <Link to={`/song/${item.slug}`}>
+                <Link to={`/song/${item.id}`}>
+                    <div className={isRemix ? "vinyl-record  " : ""}>
+
                     <img
-                        src={item.image || "/images/placeholder-song.jpg"}
+                         src={item.cover_image || "/images/song/default.png"}
                         alt={item.title}
 
                     />
+                    </div>
                 </Link>
 
                 <div className="mg-play">

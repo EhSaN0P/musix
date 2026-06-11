@@ -59,6 +59,9 @@ import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 import {AuthRoutes} from "./routes/AuthRoutes/AuthRoutes.jsx";
 import {GuestRoutes} from "./routes/GuestRoutes/GuestRoutes.jsx";
 import NewVibes from "./components/Pages/NewVibes/NewVibes.jsx";
+import GenrePage from "./components/Pages/GenrePage/GenrePage.jsx";
+import CreatePlaylist from "./components/Pages/Playlists/CreatePlaylist.jsx";
+import AdminPanel from './components/Pages/admin/admin.jsx';
 
 function App() {
   const dir = useSelector(s => s.languages.currentLang);
@@ -72,6 +75,11 @@ function App() {
 
   const isMobile = useMediaQuery({ maxWidth: 1170 });
   const isDesktop = useMediaQuery({ minWidth: 1171 });
+
+    const { isAuthenticated, user } = useSelector(
+        state => state.auth
+    );
+
 
 
   // Auth
@@ -171,6 +179,15 @@ function App() {
           <Route path="/vibe-lists" element={<VibeLists />} />
           <Route path="/vibe-makers" element={<VibeMakers />} />
           <Route path="/vibes" element={<Vibes />} />
+          <Route path="/genre/:slug" element={<GenrePage />} />
+          <Route
+              path="/playlists/create"
+              element={
+                  <ProtectedRoute>
+                      <CreatePlaylist />
+                  </ProtectedRoute>
+              }
+          />
 
           <Route path="/artist/:slug" element={<SingleArtist />} />
           <Route path="/song/:slug" element={<SingleSong />} />
@@ -185,7 +202,14 @@ function App() {
 
           <Route path="*" element={<NotFound404 />} />
 
-
+          <Route
+              path="/admin/*"
+              element={
+                  <ProtectedRoute>
+                      <AdminPanel />
+                  </ProtectedRoute>
+              }
+          />
       </Routes>
   );
 

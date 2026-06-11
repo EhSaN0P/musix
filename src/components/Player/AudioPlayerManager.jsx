@@ -1,5 +1,6 @@
 import   { useState, useEffect, useRef } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { useSelector } from 'react-redux';
 
 // ایمپورت کامپوننت‌های قبلی و جدید
 import PlayerBackground from './PlayerBackground';
@@ -28,6 +29,8 @@ const TRACK_DATA = {
 
 export default function AudioPlayerManager() {
     const isMobile = useMediaQuery('(max-w-768px)'); // تشخیص موبایل یا دسکتاپ
+    const { currentSong } = useSelector(state => state.player);
+    const trackData = currentSong || TRACK_DATA;
 
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
@@ -48,7 +51,7 @@ export default function AudioPlayerManager() {
     useEffect(() => {
         const img = new Image();
         img.crossOrigin = "Anonymous";
-        img.src = TRACK_DATA.cover;
+        img.src = trackData.cover;
         img.onload = () => {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
@@ -61,7 +64,7 @@ export default function AudioPlayerManager() {
                 secondary: `rgb(${bottomRight[0]}, ${bottomRight[1]}, ${bottomRight[2]})`
             });
         };
-    }, []);
+    }, [trackData.cover]);
 
     const togglePlay = () => {
         if (isPlaying) audioRef.current.pause();
@@ -72,8 +75,9 @@ export default function AudioPlayerManager() {
     const handleTimeUpdate = () => {
         const time = audioRef.current.currentTime;
         setCurrentTime(time);
-        const index = TRACK_DATA.lyrics.findIndex(
-            (l, i) => time >= l.time && (i === TRACK_DATA.lyrics.length - 1 || time < TRACK_DATA.lyrics[i + 1].time)
+        const lyrics = Array.isArray(trackData.lyrics) ? trackData.lyrics : [];
+        const index = lyrics.findIndex(
+            (l, i) => time >= l.time && (i === lyrics.length - 1 || time < lyrics[i + 1].time)
         );
         if (index !== -1 && index !== currentLyricIndex) setCurrentLyricIndex(index);
     };
@@ -99,8 +103,8 @@ export default function AudioPlayerManager() {
 
     // اشتراک‌گذاری دیتای لاجیک بین کامپوننت‌ها
     const commonProps = {
-        title: TRACK_DATA.title, artist: TRACK_DATA.artist, cover: TRACK_DATA.cover,
-        isPlaying, onTogglePlay: togglePlay, currentTime, duration: TRACK_DATA.duration,
+        title: trackData.title, artist: trackData.artist, cover: trackData.cover,
+        isPlaying, onTogglePlay: togglePlay, currentTime, duration: trackData.duration,
         onProgressChange: handleProgressChange, formatTime, isLiked, onToggleLike: () => setIsLiked(!isLiked),
         isShuffle, onToggleShuffle: () => setIsShuffle(!isShuffle), isRepeat, onToggleRepeat: () => setIsRepeat(!isRepeat),
         colors: extractedColors
@@ -109,14 +113,14 @@ export default function AudioPlayerManager() {
     return (
         <>
             {/* سورس صوتی مرکزی واحد */}
-            <audio ref={audioRef} src={TRACK_DATA.audioUrl} onTimeUpdate={handleTimeUpdate} onEnded={() => setIsPlaying(false)} />
+            <audio ref={audioRef} src={trackData?.audioUrl} onTimeUpdate={handleTimeUpdate} onEnded={() => setIsPlaying(false)} />
 
             {isMobile ? (
                 /* رندر مستقیم پلیر موبایل در حالت فیکس */
                 <div className="fixed inset-0 flex flex-col justify-between p-6 text-white font-sans overflow-hidden z-50">
                     <PlayerBackground colors={extractedColors} />
                     <PlayerHeader showLyrics={showLyrics} onToggleLyrics={() => setShowLyrics(!showLyrics)} colors={extractedColors} />
-                    <PlayerBody showLyrics={showLyrics} isPlaying={isPlaying} cover={TRACK_DATA.cover} title={TRACK_DATA.title} currentLyricIndex={currentLyricIndex} lyrics={TRACK_DATA.lyrics} lyricContainerRef={lyricContainerRef} colors={extractedColors} />
+                    <PlayerBody showLyrics={showLyrics} isPlaying={isPlaying} cover={trackData.cover} title={trackData.title} currentLyricIndex={currentLyricIndex} lyrics={trackData.lyrics || []} lyricContainerRef={lyricContainerRef} colors={extractedColors} />
                     <PlayerControls {...commonProps} />
                 </div>
             ) : (
@@ -131,8 +135,8 @@ export default function AudioPlayerManager() {
 
                         <div className="max-w-5xl mx-auto w-full h-full flex items-center justify-between space-x-12 mt-6">
                             {/* در دسکتاپ کاور و لیریک همزمان کنار هم نمایش داده می‌شوند که بسیار حرفه‌ای‌تر است */}
-                            <PlayerBody showLyrics={false} isPlaying={isPlaying} cover={TRACK_DATA.cover} title={TRACK_DATA.title} colors={extractedColors} />
-                            <PlayerBody showLyrics={true} currentLyricIndex={currentLyricIndex} lyrics={TRACK_DATA.lyrics} lyricContainerRef={lyricContainerRef} colors={extractedColors} />
+                            <PlayerBody showLyrics={false} isPlaying={isPlaying} cover={trackData.cover} title={trackData.title} colors={extractedColors} />
+                            <PlayerBody showLyrics={true} currentLyricIndex={currentLyricIndex} lyrics={trackData.lyrics || []} lyricContainerRef={lyricContainerRef} colors={extractedColors} />
                         </div>
 
                         <div className="max-w-3xl mx-auto w-full">
